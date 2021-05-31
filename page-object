@@ -1,0 +1,75 @@
+package com.fatec.scel.ts;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import com.fatec.scel.po.PaginaCadastrarLivro;
+import com.fatec.scel.po.PaginaExcluiLivro;
+import com.fatec.scel.po.PaginaLogin;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+
+class REQ04ExcluirLivroTSTests {
+  private WebDriver driver;
+
+  @BeforeEach
+  public void setup() {
+    System.setProperty("webdriver.chrome.driver",
+"browserDriver/chromedriver.exe");
+    driver = new ChromeDriver();
+    driver.get("https://ts-scel.herokuapp.com");
+  }
+  @AfterEach
+  public void tearDown() {
+    driver.quit();
+  }
+
+  @Test
+  void ct01_incluir_e_excluir_livro() {
+ 		driver.findElement(By.name("username")).click();
+ 		driver.findElement(By.name("username")).sendKeys("jose");
+ 		driver.findElement(By.name("username")).sendKeys(Keys.DOWN);
+ 		driver.findElement(By.name("username")).sendKeys("jose");
+ 		driver.findElement(By.name("password")).click();
+    driver.findElement(By.name("password")).sendKeys("123");
+ 		driver.findElement(By.cssSelector("button")).click();
+ 		driver.findElement(By.linkText("Livros")).click();
+ 		driver.findElement(By.id("isbn")).click();
+    driver.findElement(By.id("isbn")).sendKeys("2048");
+ 		driver.findElement(By.id("autor")).click();
+ 		driver.findElement(By.id("autor")).sendKeys("Toffler");
+ 		driver.findElement(By.id("titulo")).click();
+    driver.findElement(By.id("titulo")).sendKeys("A Terceira Onda");
+ 		driver.findElement(By.cssSelector(".btn:nth-child(1)")).click();
+ 		driver.findElement(By.cssSelector("html")).click();
+ 		driver.findElement(By.cssSelector("tr:nthchild(2) .delete")).click();
+    assertEquals("Lista de livros\\\\nID ISBN Titulo Autor\\\\n1 1111
+Engenharia de Software Sally PressmanSally Pressman\\\\nEditar\\\\
+nExcluir",driver.findElement(By.cssSelector("html")).getText());
+ 		driver.findElement(By.linkText("Editar")).click();
+    driver.findElement(By.linkText("Sair")).click();
+
+  }
+
+  public void ct02_excluir_livro() {
+    PaginaLogin paginaLogin = new PaginaLogin(driver);
+    paginaLogin.login("jose", "123");
+    PaginaExcluiLivro paginaExcluir = PaginaExcluiLivro(driver);
+
+    paginaExcluilivro.excluiRegistro();
+  }
+
+  public void espera() {
+    try {
+      Thread.sleep(2000);
+     } catch (InterruptedException e) {
+        e.printStackTrace();
+     }
+   }
+}
